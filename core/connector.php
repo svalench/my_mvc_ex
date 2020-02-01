@@ -25,7 +25,6 @@ class DB extends PDO
     private function createDB($dbname)
     {
     	$this->exec("CREATE DATABASE IF NOT EXISTS $dbname");
-    	$this->setAttribute(parent::ATTR_AUTOCOMMIT, 1);
     }
 //  Выполняет SQL-запрос и возвращает количество затронутых строк
     public function execute($statement) {
