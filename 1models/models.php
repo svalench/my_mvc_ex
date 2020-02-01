@@ -1,6 +1,6 @@
 <?php
 $DB = new DB($connection);
-$DB=null;
+//$DB=null;
 
 class User
 {

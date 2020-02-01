@@ -13,6 +13,7 @@ class DB extends PDO
        
         	parent::__construct($dns, $connection['username'], $connection['password']);
         	$this->createDB($connection['schema']);
+
         }
         catch(PDOException $e)
         {
@@ -24,10 +25,14 @@ class DB extends PDO
     private function createDB($dbname)
     {
     	$this->exec("CREATE DATABASE IF NOT EXISTS $dbname");
+    	$this->setAttribute(parent::ATTR_AUTOCOMMIT, 1);
     }
 //  Выполняет SQL-запрос и возвращает количество затронутых строк
-    public function exec($statement) {
-        @$this->beginTransaction();
+    public function execute($statement) {
+    	if(!$this->inTransaction())
+    	{
+        	$this->beginTransaction();
+        }
         $status = $this->exec($statement);
         if (!$status) {
         	$this->errorExec = true;
@@ -36,7 +41,10 @@ class DB extends PDO
 
 //выполняет SQL-запрос без подготовки и возвращает результирующий набор (если есть) в виде объекта
     public function query($statement) {
-        @$this->beginTransaction();
+        if(!$this->inTransaction())
+    	{
+        	$this->beginTransaction();
+        }
         $status = $this->query($statement);
         if (!$status) {
         	$this->errorExec = true;
@@ -48,14 +56,14 @@ class DB extends PDO
     	if (!$this->errorExec){
             $this->commit();  
         } else {
-            $this->rollback();
+            $this->rollBack();
             die("You have error! All execeptions rollback!");
         }
     }
 
     public function cancel()
     {
-    	$this->rollback();
+    	$this->rollBack();
     }
 }
 
