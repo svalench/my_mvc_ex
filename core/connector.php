@@ -30,9 +30,10 @@ class DB extends PDO
 
         	$dns = $this->default_driver .
         		':host=' . $this->default_host .
+                ';dbname='. $this->default_database .
         		((!empty($this->default_port)) ? (';port=' . $this->default_port) : '') ;
        
-        	parent::__construct($dns, $this->default_login, $this->default_password);
+        	parent::__construct($dns, $this->default_login, $this->default_password,  [parent::ATTR_ERRMODE => parent::ERRMODE_EXCEPTION]);
         	$this->createDB($this->default_database);
 
         }

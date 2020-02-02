@@ -1,73 +1,34 @@
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"].'/core/connector.php';
+include_once $_SERVER["DOCUMENT_ROOT"].'/1models/init.php';
 
 
-class User extends Model
+
+
+class User
 {
-	public $id;
+	public $model;
+	public $id=1;
 	public $name;
 	public $lastname;
 	public $login;
-	public $paswword;
+	public $password;
 	public $age;
 	public $sex;
-	
+	private $is_super;
+
 
 	public function __construct()
 	{
-		
+		$this->model = new Model();
 	}
 }
 
-class Model
-{
-	private $errorExec;
-	private $DB;
 
-	public function __construct()
-	{
-		$this->errorExec 	= false;
-		$this->DB 			= new DB();
-	}
 
-	//  Выполняет SQL-запрос и возвращает количество затронутых строк
-    public function exec($statement) {
-    	if(!$this->DB->inTransaction())
-    	{
-        	$this->DB->beginTransaction();
-        }
-        $status = $this->DB->exec($statement);
-        if (!$status) {
-        	$this->errorExec = true;
-        }
-    }
+$a = new User();
 
-//выполняет SQL-запрос без подготовки и возвращает результирующий набор (если есть) в виде объекта
-    public function query($statement) {
-        if(!$this->DB->inTransaction())
-    	{
-        	$this->DB->beginTransaction();
-        }
-        $status = $this->DB->query($statement);
-        if (!$status) {
-        	$this->errorExec = true;
-        }
-    }
+//$v = $a->model->exec("INSERT INTO `test` (`id`,`name`,`age`,`sex`) VALUES (2,'wer',12,2);");
+print_r($a->model->get("select * FROM test;"));
 
-    public function save()
-    {
-    	if (!$this->errorExec){
-            $this->DB->commit();  
-        } else {
-            $this->cancel();
-            die("You have error! All execeptions rollback!");
-        }
-    }
-
-    public function cancel()
-    {
-    	$this->DB->rollBack();
-    }
-}
-
+//$a->model->save();
 ?>
