@@ -8,11 +8,11 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php';
 	function __construct() {
      
 	}
-	public function show($path='', $param=[])
+	public function show($param=[])
 	{
 		$loader = new \Twig\Loader\FilesystemLoader($_SERVER["DOCUMENT_ROOT"].'/2template/');
 		$twig = new \Twig\Environment($loader);
-		echo $twig->render($this->template, array('name' => 'Fabien'));
+		echo $twig->render($this->template, $param);
 	}
 
  }

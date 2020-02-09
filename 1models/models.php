@@ -43,7 +43,7 @@ class User extends Model
 }
 
 
-$a = new User;
+
 
 
  // $v = $a->exec("INSERT INTO `user` (`name`,`age`) VALUES ('wer',12);");
