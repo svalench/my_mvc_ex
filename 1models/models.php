@@ -4,31 +4,50 @@ include_once $_SERVER["DOCUMENT_ROOT"].'/1models/init.php';
 
 
 
-class User
+class User extends Model
 {
-	public $model;
-	public $id=1;
-	public $name;
-	public $lastname;
-	public $login;
-	public $password;
-	public $age;
-	public $sex;
+	protected $column = [
+		[
+			'name'		=>"id",
+			'type'		=>"int",
+		 	'PK'		=>true,
+		 	"AI"		=>true
+		],
+		[
+			'name'		=>"name",
+			'type'		=>'char',
+			'length'	=>255,
+			'default'	=>'none'
+		],
+		[
+			'name'		=>"secondname",
+			'type'		=>'char',
+			'length'	=>255,
+			'default'	=>'none'
+		],
+		[
+			'name'		=>"age",
+			'type'		=>'int',
+			'length'	=>10
+		]
+	];
 	private $is_super;
-
 
 	public function __construct()
 	{
-		$this->model = new Model();
+
 	}
+
 }
 
 
+$a = new User;
 
-$a = new User();
 
-//$v = $a->model->exec("INSERT INTO `test` (`id`,`name`,`age`,`sex`) VALUES (2,'wer',12,2);");
-print_r($a->model->get("select * FROM test;"));
+// $v = $a->exec("INSERT INTO `test` (`id`,`name`,`age`,`sex`) VALUES (2,'wer',12,2);");
+// print_r($a->D);
 
-//$a->model->save();
+//print_r($a->get("select * FROM test;"));
+
 ?>
+

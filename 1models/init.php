@@ -4,25 +4,27 @@ include_once $_SERVER["DOCUMENT_ROOT"].'/core/connector.php';
 
 
 
+
 class Model 
 {
+	public $column =[];
 	private $errorExec;
-	public $DB;
 	private $table;
+	private $D;
 	public function __construct($table = '')
 	{
 		$this->errorExec 	= false;
 		$this->table 		= $table;
-		$this->DB 			= new DB();
 	}
 
 	//  Выполняет SQL-запрос и возвращает количество затронутых строк
     public function exec($statement) {
-    	if(!$this->DB->inTransaction())
+    	$this->D = new DB();
+    	if(!$this->D->inTransaction())
     	{
-        	$this->DB->beginTransaction();
+        	$this->D->beginTransaction();
         }
-        $status = $this->DB->exec($statement);
+        $status = $this->D->exec($statement);
         if (!$status) {
         	$this->errorExec = true;
         }
@@ -30,9 +32,10 @@ class Model
 
 //выполняет SQL-запрос без подготовки и возвращает результирующий набор (если есть) в виде объекта
     public function all() {
-        $status = $this->DB->query("SELECT * FROM ".$this->table.";")->fetchAll();
+    	$DB=new DB();
+        $status = $DB->query("SELECT * FROM ".$this->table.";")->fetchAll();
         if (!$status) {
-        	$this->errorExec = true;
+        	$status = "error response";
         	return $status;
         }
         else
@@ -42,9 +45,10 @@ class Model
     }
 
         public function get($statement) {
-        $status = $this->DB->query($statement)->fetch();
+        	$DB=new DB();
+        $status = $DB->query($statement)->fetch();
         if (!$status) {
-        	$this->errorExec = true;
+        	$status = "error response";
         	return $status;
         }
         else
@@ -56,17 +60,22 @@ class Model
     public function save()
     {
     	if (!$this->errorExec){
-            $this->DB->commit();  
+            $this->D->commit();  
         } else {
-            $this->cancel();
+            $this->D->rollBack();
             die("You have error! All execeptions rollback!");
         }
     }
 
     public function cancel()
     {
-    	$this->DB->rollBack();
+    	$this->D->rollBack();
     }
+
+
+
+
+
 }
 
 
