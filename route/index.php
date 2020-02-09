@@ -45,7 +45,7 @@ class Route
 	static function post($path,$fileName)
 	{
 		$routesExternal = explode('/', urldecode($_SERVER['REQUEST_URI']));
-		if($path == $routesExternal)
+		if($path == $_SERVER['REQUEST_URI'])
 		{
 			$_GET = [];
 			Route::route($fileName);

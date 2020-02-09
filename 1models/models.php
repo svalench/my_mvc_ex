@@ -1,12 +1,11 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"].'/1models/init.php';
 
-
-
+// https://oracleplsql.ru/data-types-mysql.html this is link for add type column
 
 class User extends Model
 {
-	protected $column = [
+	public $column = [
 		[
 			'name'		=>"id",
 			'type'		=>"int",
@@ -15,20 +14,23 @@ class User extends Model
 		],
 		[
 			'name'		=>"name",
-			'type'		=>'char',
+			'type'		=>'VARCHAR',
 			'length'	=>255,
-			'default'	=>'none'
+			'default'	=>'none',
+			'null'		=> true
 		],
 		[
 			'name'		=>"secondname",
-			'type'		=>'char',
+			'type'		=>'VARCHAR',
 			'length'	=>255,
-			'default'	=>'none'
+			'default'	=>'none',
+			'null'		=> true
 		],
 		[
 			'name'		=>"age",
 			'type'		=>'int',
-			'length'	=>10
+			'length'	=>10,
+			'null'		=> true
 		]
 	];
 	private $is_super;
@@ -44,7 +46,8 @@ class User extends Model
 $a = new User;
 
 
-// $v = $a->exec("INSERT INTO `test` (`id`,`name`,`age`,`sex`) VALUES (2,'wer',12,2);");
+ // $v = $a->exec("INSERT INTO `user` (`name`,`age`) VALUES ('wer',12);");
+ // $a->save();
 // print_r($a->D);
 
 //print_r($a->get("select * FROM test;"));

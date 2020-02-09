@@ -12,4 +12,8 @@ include_once $_SERVER["DOCUMENT_ROOT"].'/1models/models.php';
 
 include_once $_SERVER["DOCUMENT_ROOT"].'/route/route.php';
 
+if(!@$_GLOBAL['route_find'])
+{
+	print_r('route not find');
+}
 ?>
