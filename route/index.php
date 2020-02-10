@@ -12,17 +12,19 @@ class Route
 	{
 		$routesInternal = explode('/', $path);
 		$lastInternal = @end($routesInternal);
-		if(!end($routesInternal))
+		if(!end($routesInternal) && $routesInternal[0])
 		{ 
 			exit("error ferst parametr in Route::get! See file /rote/route.php");
 		}
 		$routesExternal = explode('/', urldecode($_SERVER['REQUEST_URI']));
-		if(!end($routesExternal) && $lastInternal[0]!='$')
+		if(!end($routesExternal) && @$lastInternal[0]!='$')
 		{
 			array_pop($routesExternal);
 		}
-		if (count($routesInternal)==count($routesExternal)) 
+	
+		if ((count($routesInternal)==count($routesExternal)) || (count($routesInternal)==0 && count($routesExternal)==0) ) 
 		{
+			
 			$_GET = [];
 			$_POST = [];
 			foreach ($routesInternal as $key => $value) 
